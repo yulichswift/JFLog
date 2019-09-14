@@ -20,7 +20,7 @@ class JFLog {
         // private const val MAX_LOG_LENGTH = 4000
         // private const val MAX_TAG_LENGTH = 23
 
-        private var mSingleLineLength = 500
+        private var mMaxLineLength = 500
         private var mGlobalTag = "JFLog"
         private var mLogTree: LogTree? = null
 
@@ -28,8 +28,8 @@ class JFLog {
             mGlobalTag = tag
         }
 
-        fun setLineLength(length: Int) {
-            mSingleLineLength = length
+        fun setMaxLineLength(length: Int) {
+            mMaxLineLength = length
         }
 
         fun setLogTree(logTree: LogTree) {
@@ -141,11 +141,11 @@ class JFLog {
                 val trace = Throwable().stackTrace[hierarchy + 1]
                 val logPrefix = getPrefix(trace)
 
-                if (message.length > mSingleLineLength) {
+                if (message.length > mMaxLineLength) {
                     var isFirst = true
                     var remainMessage = message
-                    while (remainMessage.length > mSingleLineLength) {
-                        remainMessage.subSequence(0, mSingleLineLength).also {
+                    while (remainMessage.length > mMaxLineLength) {
+                        remainMessage.subSequence(0, mMaxLineLength).also {
                             if (isFirst) {
                                 isFirst = false
                                 myLog2(level, tag, "$logPrefix↘: $it")
@@ -154,7 +154,7 @@ class JFLog {
                             }
                         }
 
-                        remainMessage = remainMessage.substring(mSingleLineLength)
+                        remainMessage = remainMessage.substring(mMaxLineLength)
                     }
 
                     if (remainMessage.isNotEmpty()) {
