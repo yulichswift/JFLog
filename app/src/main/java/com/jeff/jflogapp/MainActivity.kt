@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClick1(view: View) {
+        JFLog.d("Clicked 1", "A", 0)
+        JFLog.d("Clicked 1", "B")
         JFLog.d("Clicked 1")
     }
 }
