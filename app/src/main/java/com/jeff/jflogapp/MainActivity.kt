@@ -11,8 +11,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // setLogTree is not necessary
-        JFLog.setLogTree(AppLogTree())
+        // setGlobalLogTree is not necessary
+        JFLog.setGlobalLogTree(AppLogTree())
 
         JFLog.v("Init")
         JFLog.d("Init")

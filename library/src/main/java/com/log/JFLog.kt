@@ -22,17 +22,21 @@ class JFLog {
 
         private var mMaxLineLength = 500
         private var mGlobalTag = "JFLog"
+        private var mEnableLogTree = false
         private var mLogTree: LogTree? = null
 
         fun setGlobalTag(tag: String) {
             mGlobalTag = tag
         }
 
-        fun setMaxLineLength(length: Int) {
+        fun getGlobalTag() = mGlobalTag
+
+        fun setGlobalMaxLineLength(length: Int) {
             mMaxLineLength = length
         }
 
-        fun setLogTree(logTree: LogTree) {
+        fun setGlobalLogTree(logTree: LogTree?) {
+            mEnableLogTree = logTree != null
             mLogTree = logTree
         }
 
@@ -40,13 +44,13 @@ class JFLog {
          * Verbose
          */
         fun v(message: String, hierarchy: Int) {
-            v(message, mGlobalTag, hierarchy + 1)
+            v(message, getGlobalTag(), hierarchy + 1)
         }
 
         /**
          * Verbose
          */
-        fun v(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
+        fun v(message: String, tag: String = getGlobalTag(), hierarchy: Int = 1) {
             myLog1(LogLevel.VERBOSE, tag, hierarchy + 1, message)
         }
 
@@ -54,13 +58,13 @@ class JFLog {
          * Debug
          */
         fun d(message: String, hierarchy: Int) {
-            d(message, mGlobalTag, hierarchy + 1)
+            d(message, getGlobalTag(), hierarchy + 1)
         }
 
         /**
          * Debug
          */
-        fun d(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
+        fun d(message: String, tag: String = getGlobalTag(), hierarchy: Int = 1) {
             myLog1(LogLevel.DEBUG, tag, hierarchy + 1, message)
         }
 
@@ -68,13 +72,13 @@ class JFLog {
          * Info
          */
         fun i(message: String, hierarchy: Int) {
-            i(message, mGlobalTag, hierarchy + 1)
+            i(message, getGlobalTag(), hierarchy + 1)
         }
 
         /**
          * Info
          */
-        fun i(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
+        fun i(message: String, tag: String = getGlobalTag(), hierarchy: Int = 1) {
             myLog1(LogLevel.INFO, tag, hierarchy + 1, message)
         }
 
@@ -82,13 +86,13 @@ class JFLog {
          * Warn
          */
         fun w(message: String, hierarchy: Int) {
-            w(message, mGlobalTag, hierarchy + 1)
+            w(message, getGlobalTag(), hierarchy + 1)
         }
 
         /**
          * Warn
          */
-        fun w(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
+        fun w(message: String, tag: String = getGlobalTag(), hierarchy: Int = 1) {
             myLog1(LogLevel.WARN, tag, hierarchy + 1, message)
         }
 
@@ -96,13 +100,13 @@ class JFLog {
          * Error
          */
         fun e(message: String, hierarchy: Int) {
-            e(message, mGlobalTag, hierarchy + 1)
+            e(message, getGlobalTag(), hierarchy + 1)
         }
 
         /**
          * Error
          */
-        fun e(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
+        fun e(message: String, tag: String = getGlobalTag(), hierarchy: Int = 1) {
             myLog1(LogLevel.ERROR, tag, hierarchy + 1, message)
         }
 
@@ -110,13 +114,13 @@ class JFLog {
          * Assert
          */
         fun wtf(message: String, hierarchy: Int) {
-            wtf(message, mGlobalTag, hierarchy + 1)
+            wtf(message, getGlobalTag(), hierarchy + 1)
         }
 
         /**
          * Assert
          */
-        fun wtf(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
+        fun wtf(message: String, tag: String = getGlobalTag(), hierarchy: Int = 1) {
             myLog1(LogLevel.ASSERT, tag, hierarchy + 1, message)
         }
 
@@ -167,10 +171,11 @@ class JFLog {
         }
 
         private fun myLog2(level: LogLevel, tag: String, message: String) {
-            if (mLogTree == null) {
-                myLog3(level, tag, message)
-            } else {
+            if (mEnableLogTree) {
                 mLogTree?.log(level, tag, message)
+            } else {
+                myLog3(level, tag, message)
+
             }
         }
 
