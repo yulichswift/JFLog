@@ -12,7 +12,8 @@ class JFLog {
     }
 
     abstract class LogTree : BaseTree {
-        override fun log(level: LogLevel, tag: String, message: String) = myLog3(level, tag, message)
+        override fun log(level: LogLevel, tag: String, message: String) =
+            myLog3(level, tag, message)
     }
 
     companion object {
@@ -36,86 +37,44 @@ class JFLog {
         }
 
         /**
-         * Verbose
+         * VERBOSE
          */
-        fun v(message: String) {
-            v(mGlobalTag, 1, message)
-        }
-
-        /**
-         * Custom verbose
-         */
-        fun v(tag: String, hierarchy: Int, message: String) {
+        fun v(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
             myLog1(LogLevel.VERBOSE, tag, hierarchy + 1, message)
         }
 
         /**
          * Debug
          */
-        fun d(message: String) {
-            d(mGlobalTag, 1, message)
-        }
-
-        /**
-         * Custom debug
-         */
-        fun d(tag: String, hierarchy: Int, message: String) {
+        fun d(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
             myLog1(LogLevel.DEBUG, tag, hierarchy + 1, message)
         }
 
         /**
          * Info
          */
-        fun i(message: String) {
-            i(mGlobalTag, 1, message)
-        }
-
-        /**
-         * Custom info
-         */
-        fun i(tag: String, hierarchy: Int, message: String) {
+        fun i(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
             myLog1(LogLevel.INFO, tag, hierarchy + 1, message)
         }
 
         /**
          * Warn
          */
-        fun w(message: String) {
-            w(mGlobalTag, 1, message)
-        }
-
-        /**
-         * Custom warn
-         */
-        fun w(tag: String, hierarchy: Int, message: String) {
+        fun w(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
             myLog1(LogLevel.WARN, tag, hierarchy + 1, message)
         }
 
         /**
          * Error
          */
-        fun e(message: String) {
-            e(mGlobalTag, 1, message)
-        }
-
-        /**
-         * Custom error
-         */
-        fun e(tag: String, hierarchy: Int, message: String) {
+        fun e(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
             myLog1(LogLevel.ERROR, tag, hierarchy + 1, message)
         }
 
         /**
          * Assert
          */
-        fun wtf(message: String) {
-            wtf(mGlobalTag, 1, message)
-        }
-
-        /**
-         * Custom assert
-         */
-        fun wtf(tag: String, hierarchy: Int, message: String) {
+        fun wtf(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
             myLog1(LogLevel.ASSERT, tag, hierarchy + 1, message)
         }
 

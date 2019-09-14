@@ -14,7 +14,12 @@ class MainActivity : AppCompatActivity() {
         // setLogTree is not necessary
         JFLog.setLogTree(AppLogTree())
 
+        JFLog.v("Init")
         JFLog.d("Init")
+        JFLog.i("Init")
+        JFLog.w("Init")
+        JFLog.e("Init")
+        JFLog.wtf("Init")
     }
 
     fun onClick1(view: View) {
