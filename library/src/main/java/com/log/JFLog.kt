@@ -7,103 +7,116 @@ class JFLog {
         VERBOSE, DEBUG, INFO, WARN, ERROR, ASSERT
     }
 
+    interface BaseTree {
+        fun log(level: LogLevel, tag: String, message: String)
+    }
+
+    abstract class LogTree : BaseTree {
+        override fun log(level: LogLevel, tag: String, message: String) = myLog3(level, tag, message)
+    }
+
     companion object {
         // private const val MAX_LOG_LENGTH = 4000
         // private const val MAX_TAG_LENGTH = 23
 
-        private var LINE_LENGTH = 500
-        private var GLOBAL_TAG = "JFLog"
+        private var mSingleLineLength = 500
+        private var mGlobalTag = "JFLog"
+        private var mLogTree: LogTree? = null
 
         fun setGlobalTag(tag: String) {
-            GLOBAL_TAG = tag
+            mGlobalTag = tag
         }
 
         fun setLineLength(length: Int) {
-            LINE_LENGTH = length
+            mSingleLineLength = length
+        }
+
+        fun setLogTree(logTree: LogTree) {
+            mLogTree = logTree
         }
 
         /**
          * Verbose
          */
         fun v(message: String) {
-            v(GLOBAL_TAG, 1, message)
+            v(mGlobalTag, 1, message)
         }
 
         /**
          * Custom verbose
          */
         fun v(tag: String, hierarchy: Int, message: String) {
-            myLog(LogLevel.VERBOSE, tag, hierarchy + 1, message)
+            myLog1(LogLevel.VERBOSE, tag, hierarchy + 1, message)
         }
 
         /**
          * Debug
          */
         fun d(message: String) {
-            d(GLOBAL_TAG, 1, message)
+            d(mGlobalTag, 1, message)
         }
 
         /**
          * Custom debug
          */
         fun d(tag: String, hierarchy: Int, message: String) {
-            myLog(LogLevel.DEBUG, tag, hierarchy + 1, message)
+            myLog1(LogLevel.DEBUG, tag, hierarchy + 1, message)
         }
 
         /**
          * Info
          */
         fun i(message: String) {
-            i(GLOBAL_TAG, 1, message)
+            i(mGlobalTag, 1, message)
         }
 
         /**
          * Custom info
          */
         fun i(tag: String, hierarchy: Int, message: String) {
-            myLog(LogLevel.INFO, tag, hierarchy + 1, message)
+            myLog1(LogLevel.INFO, tag, hierarchy + 1, message)
         }
 
         /**
          * Warn
          */
         fun w(message: String) {
-            w(GLOBAL_TAG, 1, message)
+            w(mGlobalTag, 1, message)
         }
 
         /**
          * Custom warn
          */
         fun w(tag: String, hierarchy: Int, message: String) {
-            myLog(LogLevel.WARN, tag, hierarchy + 1, message)
+            myLog1(LogLevel.WARN, tag, hierarchy + 1, message)
         }
 
         /**
          * Error
          */
         fun e(message: String) {
-            e(GLOBAL_TAG, 1, message)
+            e(mGlobalTag, 1, message)
         }
 
         /**
          * Custom error
          */
         fun e(tag: String, hierarchy: Int, message: String) {
-            myLog(LogLevel.ERROR, tag, hierarchy + 1, message)
+            myLog1(LogLevel.ERROR, tag, hierarchy + 1, message)
         }
 
         /**
          * Assert
          */
         fun wtf(message: String) {
-            wtf(GLOBAL_TAG, 1, message)
+            wtf(mGlobalTag, 1, message)
         }
 
         /**
          * Custom assert
          */
         fun wtf(tag: String, hierarchy: Int, message: String) {
-            myLog(LogLevel.ASSERT, tag, hierarchy + 1, message)
+            myLog1(LogLevel.ASSERT, tag, hierarchy + 1, message)
         }
 
         private fun loggable(): Boolean {
@@ -122,37 +135,45 @@ class JFLog {
             return "(${trace.fileName}:${trace.lineNumber})"
         }
 
-        private fun myLog(level: LogLevel, tag: String, hierarchy: Int, message: String) {
+        private fun myLog1(level: LogLevel, tag: String, hierarchy: Int, message: String) {
             if (loggable()) {
                 val trace = Throwable().stackTrace[hierarchy + 1]
                 val logPrefix = getPrefix(trace)
 
-                if (message.length > LINE_LENGTH) {
+                if (message.length > mSingleLineLength) {
                     var isFirst = true
                     var remainMessage = message
-                    while (remainMessage.length > LINE_LENGTH) {
-                        remainMessage.subSequence(0, LINE_LENGTH).also {
+                    while (remainMessage.length > mSingleLineLength) {
+                        remainMessage.subSequence(0, mSingleLineLength).also {
                             if (isFirst) {
                                 isFirst = false
-                                myPrint(level, tag, "$logPrefix↘: $it")
+                                myLog2(level, tag, "$logPrefix↘: $it")
                             } else {
-                                myPrint(level, tag, "$logPrefix↗: $it")
+                                myLog2(level, tag, "$logPrefix↗: $it")
                             }
                         }
 
-                        remainMessage = remainMessage.substring(LINE_LENGTH)
+                        remainMessage = remainMessage.substring(mSingleLineLength)
                     }
 
                     if (remainMessage.isNotEmpty()) {
-                        myPrint(level, tag, "$logPrefix↗: $remainMessage")
+                        myLog2(level, tag, "$logPrefix↗: $remainMessage")
                     }
                 } else {
-                    myPrint(level, tag, "$logPrefix: $message")
+                    myLog2(level, tag, "$logPrefix: $message")
                 }
             }
         }
 
-        private fun myPrint(level: LogLevel, tag: String, message: String) {
+        private fun myLog2(level: LogLevel, tag: String, message: String) {
+            if (mLogTree == null) {
+                myLog3(level, tag, message)
+            } else {
+                mLogTree?.log(level, tag, message)
+            }
+        }
+
+        private fun myLog3(level: LogLevel, tag: String, message: String) {
             when (level) {
                 LogLevel.VERBOSE -> Log.v(tag, message)
                 LogLevel.DEBUG -> Log.d(tag, message)
