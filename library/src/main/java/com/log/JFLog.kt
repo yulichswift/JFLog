@@ -37,10 +37,24 @@ class JFLog {
         }
 
         /**
-         * VERBOSE
+         * Verbose
+         */
+        fun v(message: String, hierarchy: Int) {
+            v(message, mGlobalTag, hierarchy + 1)
+        }
+
+        /**
+         * Verbose
          */
         fun v(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
             myLog1(LogLevel.VERBOSE, tag, hierarchy + 1, message)
+        }
+
+        /**
+         * Debug
+         */
+        fun d(message: String, hierarchy: Int) {
+            d(message, mGlobalTag, hierarchy + 1)
         }
 
         /**
@@ -53,8 +67,22 @@ class JFLog {
         /**
          * Info
          */
+        fun i(message: String, hierarchy: Int) {
+            i(message, mGlobalTag, hierarchy + 1)
+        }
+
+        /**
+         * Info
+         */
         fun i(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
             myLog1(LogLevel.INFO, tag, hierarchy + 1, message)
+        }
+
+        /**
+         * Warn
+         */
+        fun w(message: String, hierarchy: Int) {
+            w(message, mGlobalTag, hierarchy + 1)
         }
 
         /**
@@ -67,8 +95,22 @@ class JFLog {
         /**
          * Error
          */
+        fun e(message: String, hierarchy: Int) {
+            e(message, mGlobalTag, hierarchy + 1)
+        }
+
+        /**
+         * Error
+         */
         fun e(message: String, tag: String = mGlobalTag, hierarchy: Int = 1) {
             myLog1(LogLevel.ERROR, tag, hierarchy + 1, message)
+        }
+
+        /**
+         * Assert
+         */
+        fun wtf(message: String, hierarchy: Int) {
+            wtf(message, mGlobalTag, hierarchy + 1)
         }
 
         /**

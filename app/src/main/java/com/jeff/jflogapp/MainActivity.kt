@@ -26,5 +26,6 @@ class MainActivity : AppCompatActivity() {
         JFLog.d("Clicked 1", "A", 0)
         JFLog.d("Clicked 1", "B")
         JFLog.d("Clicked 1")
+        JFLog.d("Clicked 1", 0)
     }
 }
