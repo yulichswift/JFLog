@@ -19,6 +19,7 @@ class JFLog {
     companion object {
         // private const val MAX_LOG_LENGTH = 4000
         // private const val MAX_TAG_LENGTH = 23
+        private const val DEFAULT = 1
 
         private var mMaxLineLength = 500
         private var mGlobalTag = "JFLog"
@@ -50,7 +51,7 @@ class JFLog {
         /**
          * Verbose
          */
-        fun v(message: String, tag: String = getGlobalTag(), hierarchy: Int = 1) {
+        fun v(message: String, tag: String = getGlobalTag(), hierarchy: Int = DEFAULT) {
             myLog1(LogLevel.VERBOSE, tag, hierarchy + 1, message)
         }
 
@@ -64,7 +65,7 @@ class JFLog {
         /**
          * Debug
          */
-        fun d(message: String, tag: String = getGlobalTag(), hierarchy: Int = 1) {
+        fun d(message: String, tag: String = getGlobalTag(), hierarchy: Int = DEFAULT) {
             myLog1(LogLevel.DEBUG, tag, hierarchy + 1, message)
         }
 
@@ -78,7 +79,7 @@ class JFLog {
         /**
          * Info
          */
-        fun i(message: String, tag: String = getGlobalTag(), hierarchy: Int = 1) {
+        fun i(message: String, tag: String = getGlobalTag(), hierarchy: Int = DEFAULT) {
             myLog1(LogLevel.INFO, tag, hierarchy + 1, message)
         }
 
@@ -92,7 +93,7 @@ class JFLog {
         /**
          * Warn
          */
-        fun w(message: String, tag: String = getGlobalTag(), hierarchy: Int = 1) {
+        fun w(message: String, tag: String = getGlobalTag(), hierarchy: Int = DEFAULT) {
             myLog1(LogLevel.WARN, tag, hierarchy + 1, message)
         }
 
@@ -106,7 +107,7 @@ class JFLog {
         /**
          * Error
          */
-        fun e(message: String, tag: String = getGlobalTag(), hierarchy: Int = 1) {
+        fun e(message: String, tag: String = getGlobalTag(), hierarchy: Int = DEFAULT) {
             myLog1(LogLevel.ERROR, tag, hierarchy + 1, message)
         }
 
@@ -120,7 +121,7 @@ class JFLog {
         /**
          * Assert
          */
-        fun wtf(message: String, tag: String = getGlobalTag(), hierarchy: Int = 1) {
+        fun wtf(message: String, tag: String = getGlobalTag(), hierarchy: Int = DEFAULT) {
             myLog1(LogLevel.ASSERT, tag, hierarchy + 1, message)
         }
 
