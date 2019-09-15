@@ -8,12 +8,13 @@ class JFLog {
     }
 
     interface BaseTree {
+        fun isLoggable(): Boolean
         fun log(level: LogLevel, tag: String, message: String)
     }
 
     abstract class LogTree : BaseTree {
         override fun log(level: LogLevel, tag: String, message: String) =
-            myLog3(level, tag, message)
+            prepareLog3(level, tag, message)
     }
 
     companion object {
@@ -25,6 +26,8 @@ class JFLog {
         private var mGlobalTag = "JFLog"
         private var mEnableLogTree = false
         private var mLogTree: LogTree? = null
+
+        var isLoggable = true
 
         fun setGlobalTag(tag: String) {
             mGlobalTag = tag
@@ -66,7 +69,7 @@ class JFLog {
          * Verbose
          */
         fun v(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
-            myLog1(LogLevel.VERBOSE, tag, hierarchy + 1, message)
+            prepareLog1(LogLevel.VERBOSE, tag, hierarchy + 1, message)
         }
 
         /**
@@ -94,7 +97,7 @@ class JFLog {
          * Debug
          */
         fun d(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
-            myLog1(LogLevel.DEBUG, tag, hierarchy + 1, message)
+            prepareLog1(LogLevel.DEBUG, tag, hierarchy + 1, message)
         }
 
         /**
@@ -122,7 +125,7 @@ class JFLog {
          * Info
          */
         fun i(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
-            myLog1(LogLevel.INFO, tag, hierarchy + 1, message)
+            prepareLog1(LogLevel.INFO, tag, hierarchy + 1, message)
         }
 
         /**
@@ -150,7 +153,7 @@ class JFLog {
          * Warn
          */
         fun w(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
-            myLog1(LogLevel.WARN, tag, hierarchy + 1, message)
+            prepareLog1(LogLevel.WARN, tag, hierarchy + 1, message)
         }
 
         /**
@@ -178,7 +181,7 @@ class JFLog {
          * Error
          */
         fun e(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
-            myLog1(LogLevel.ERROR, tag, hierarchy + 1, message)
+            prepareLog1(LogLevel.ERROR, tag, hierarchy + 1, message)
         }
 
         /**
@@ -206,11 +209,15 @@ class JFLog {
          * Assert
          */
         fun wtf(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
-            myLog1(LogLevel.ASSERT, tag, hierarchy + 1, message)
+            prepareLog1(LogLevel.ASSERT, tag, hierarchy + 1, message)
         }
 
         private fun loggable(): Boolean {
-            if (BuildConfig.DEBUG || Log.isLoggable("jflog", Log.DEBUG)) {
+            if (mEnableLogTree) {
+                return mLogTree!!.isLoggable()
+            }
+
+            if (isLoggable || Log.isLoggable("jflog", Log.DEBUG)) {
                 return true
             }
 
@@ -225,7 +232,7 @@ class JFLog {
             return "(${trace.fileName}:${trace.lineNumber})"
         }
 
-        private fun myLog1(level: LogLevel, tag: String, hierarchy: Int, message: String) {
+        private fun prepareLog1(level: LogLevel, tag: String, hierarchy: Int, message: String) {
             if (loggable()) {
                 val trace = Throwable().stackTrace[hierarchy + 1]
                 val logPrefix = getPrefix(trace)
@@ -237,9 +244,9 @@ class JFLog {
                         remainMessage.subSequence(0, mMaxLineLength).also {
                             if (isFirst) {
                                 isFirst = false
-                                myLog2(level, tag, "$logPrefix↘: $it")
+                                prepareLog2(level, tag, "$logPrefix↘: $it")
                             } else {
-                                myLog2(level, tag, "$logPrefix↗: $it")
+                                prepareLog2(level, tag, "$logPrefix↗: $it")
                             }
                         }
 
@@ -247,24 +254,23 @@ class JFLog {
                     }
 
                     if (remainMessage.isNotEmpty()) {
-                        myLog2(level, tag, "$logPrefix↗: $remainMessage")
+                        prepareLog2(level, tag, "$logPrefix↗: $remainMessage")
                     }
                 } else {
-                    myLog2(level, tag, "$logPrefix: $message")
+                    prepareLog2(level, tag, "$logPrefix: $message")
                 }
             }
         }
 
-        private fun myLog2(level: LogLevel, tag: String, message: String) {
+        private fun prepareLog2(level: LogLevel, tag: String, message: String) {
             if (mEnableLogTree) {
                 mLogTree?.log(level, tag, message)
             } else {
-                myLog3(level, tag, message)
-
+                prepareLog3(level, tag, message)
             }
         }
 
-        private fun myLog3(level: LogLevel, tag: String, message: String) {
+        private fun prepareLog3(level: LogLevel, tag: String, message: String) {
             when (level) {
                 LogLevel.VERBOSE -> Log.v(tag, message)
                 LogLevel.DEBUG -> Log.d(tag, message)

@@ -15,6 +15,6 @@ allprojects {
 ### Step 2. Add the dependency
 ```
 dependencies {
-    implementation 'com.github.yulichswift:JFLog:1.3.0'
+    implementation 'com.github.yulichswift:JFLog:1.4.0'
 }
 ```
