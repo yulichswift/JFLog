@@ -44,84 +44,168 @@ class JFLog {
         /**
          * Verbose
          */
-        fun v(message: String, hierarchy: Int) {
-            v(message, getGlobalTag(), hierarchy + 1)
+        fun v(message: String) {
+            v(getGlobalTag(), 1, message)
         }
 
         /**
          * Verbose
          */
-        fun v(message: String, tag: String = getGlobalTag(), hierarchy: Int = DEFAULT) {
+        fun v(tag: String, message: String) {
+            v(tag, 1, message)
+        }
+
+        /**
+         * Verbose
+         */
+        fun v(hierarchy: Int, message: String) {
+            v(getGlobalTag(), hierarchy + 1, message)
+        }
+
+        /**
+         * Verbose
+         */
+        fun v(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
             myLog1(LogLevel.VERBOSE, tag, hierarchy + 1, message)
         }
 
         /**
          * Debug
          */
-        fun d(message: String, hierarchy: Int) {
-            d(message, getGlobalTag(), hierarchy + 1)
+        fun d(message: String) {
+            d(getGlobalTag(), 1, message)
         }
 
         /**
          * Debug
          */
-        fun d(message: String, tag: String = getGlobalTag(), hierarchy: Int = DEFAULT) {
+        fun d(tag: String, message: String) {
+            d(tag, 1, message)
+        }
+
+        /**
+         * Debug
+         */
+        fun d(hierarchy: Int, message: String) {
+            d(getGlobalTag(), hierarchy + 1, message)
+        }
+
+        /**
+         * Debug
+         */
+        fun d(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
             myLog1(LogLevel.DEBUG, tag, hierarchy + 1, message)
         }
 
         /**
          * Info
          */
-        fun i(message: String, hierarchy: Int) {
-            i(message, getGlobalTag(), hierarchy + 1)
+        fun i(message: String) {
+            i(getGlobalTag(), 1, message)
         }
 
         /**
          * Info
          */
-        fun i(message: String, tag: String = getGlobalTag(), hierarchy: Int = DEFAULT) {
+        fun i(tag: String, message: String) {
+            i(tag, 1, message)
+        }
+
+        /**
+         * Info
+         */
+        fun i(hierarchy: Int, message: String) {
+            i(getGlobalTag(), hierarchy + 1, message)
+        }
+
+        /**
+         * Info
+         */
+        fun i(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
             myLog1(LogLevel.INFO, tag, hierarchy + 1, message)
         }
 
         /**
          * Warn
          */
-        fun w(message: String, hierarchy: Int) {
-            w(message, getGlobalTag(), hierarchy + 1)
+        fun w(message: String) {
+            w(getGlobalTag(), 1, message)
         }
 
         /**
          * Warn
          */
-        fun w(message: String, tag: String = getGlobalTag(), hierarchy: Int = DEFAULT) {
+        fun w(tag: String, message: String) {
+            w(tag, 1, message)
+        }
+
+        /**
+         * Warn
+         */
+        fun w(hierarchy: Int, message: String) {
+            w(getGlobalTag(), hierarchy + 1, message)
+        }
+
+        /**
+         * Warn
+         */
+        fun w(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
             myLog1(LogLevel.WARN, tag, hierarchy + 1, message)
         }
 
         /**
          * Error
          */
-        fun e(message: String, hierarchy: Int) {
-            e(message, getGlobalTag(), hierarchy + 1)
+        fun e(message: String) {
+            e(getGlobalTag(), 1, message)
         }
 
         /**
          * Error
          */
-        fun e(message: String, tag: String = getGlobalTag(), hierarchy: Int = DEFAULT) {
+        fun e(tag: String, message: String) {
+            e(tag, 1, message)
+        }
+
+        /**
+         * Error
+         */
+        fun e(hierarchy: Int, message: String) {
+            e(getGlobalTag(), hierarchy + 1, message)
+        }
+
+        /**
+         * Error
+         */
+        fun e(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
             myLog1(LogLevel.ERROR, tag, hierarchy + 1, message)
         }
 
         /**
          * Assert
          */
-        fun wtf(message: String, hierarchy: Int) {
-            wtf(message, getGlobalTag(), hierarchy + 1)
+        fun wtf(message: String) {
+            wtf(getGlobalTag(), 1, message)
         }
 
         /**
          * Assert
          */
-        fun wtf(message: String, tag: String = getGlobalTag(), hierarchy: Int = DEFAULT) {
+        fun wtf(tag: String, message: String) {
+            wtf(tag, 1, message)
+        }
+
+        /**
+         * Assert
+         */
+        fun wtf(hierarchy: Int, message: String) {
+            wtf(getGlobalTag(), hierarchy + 1, message)
+        }
+
+        /**
+         * Assert
+         */
+        fun wtf(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
             myLog1(LogLevel.ASSERT, tag, hierarchy + 1, message)
         }
 

@@ -23,9 +23,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClick1(view: View) {
-        JFLog.d("Clicked 1", "A", 0)
-        JFLog.d("Clicked 1", "B")
-        JFLog.d("Clicked 1")
-        JFLog.d("Clicked 1", 0)
+        JFLog.d("Click1")
+        JFLog.d("App","Click1")
+        JFLog.d(0,"Click1")
+        JFLog.d("App", 0,"Click1")
     }
 }
