@@ -18,8 +18,7 @@ class JFLog {
     }
 
     companion object {
-        // private const val MAX_LOG_LENGTH = 4000
-        // private const val MAX_TAG_LENGTH = 23
+        private const val MAX_TAG_LENGTH = 23
         private const val DEFAULT = 1
 
         private var mMaxLineLength = 500
@@ -31,7 +30,11 @@ class JFLog {
         var isLoggable = true
 
         fun setGlobalTag(tag: String) {
-            mGlobalTag = tag
+            if (tag.length > MAX_TAG_LENGTH) {
+                mGlobalTag = tag.substring(0, MAX_TAG_LENGTH)
+            } else {
+                mGlobalTag = tag
+            }
         }
 
         fun getGlobalTag() = mGlobalTag
