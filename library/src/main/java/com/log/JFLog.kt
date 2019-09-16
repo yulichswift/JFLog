@@ -26,6 +26,7 @@ class JFLog {
         private var mGlobalTag = "JFLog"
         private var mEnableLogTree = false
         private var mLogTree: LogTree? = null
+        private val mPropertyLoggable by lazy { Log.isLoggable("jflog", Log.DEBUG) }
 
         var isLoggable = true
 
@@ -215,9 +216,7 @@ class JFLog {
         private fun loggable(): Boolean {
             if (mEnableLogTree) {
                 return mLogTree!!.isLoggable()
-            }
-
-            if (isLoggable || Log.isLoggable("jflog", Log.DEBUG)) {
+            } else if (isLoggable || mPropertyLoggable) {
                 return true
             }
 
