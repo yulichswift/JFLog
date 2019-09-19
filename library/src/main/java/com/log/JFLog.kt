@@ -236,7 +236,14 @@ class JFLog {
 
         private fun prepareLog1(level: LogLevel, tag: String, hierarchy: Int, message: String) {
             if (loggable()) {
-                val trace = Throwable().stackTrace[hierarchy + 1]
+                val stackTrace = Throwable().stackTrace
+                val trace =
+                    if (stackTrace.size > hierarchy + 1) {
+                        stackTrace[hierarchy + 1]
+                    } else {
+                        stackTrace[stackTrace.size - 1]
+                    }
+
                 val logPrefix = getPrefix(trace)
 
                 if (message.length > mMaxLineLength) {
