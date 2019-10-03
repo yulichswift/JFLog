@@ -27,8 +27,9 @@ object JFLog {
     private var mLogTree: LogTree? = null
     private val mPropertyLoggable by lazy { Log.isLoggable("jflog", Log.DEBUG) }
 
-    var isLoggable = true
+    @JvmField var isLoggable = true
 
+    @JvmStatic
     fun setGlobalTag(tag: String) {
         if (tag.length > MAX_TAG_LENGTH) {
             mGlobalTag = tag.substring(0, MAX_TAG_LENGTH)
@@ -37,12 +38,15 @@ object JFLog {
         }
     }
 
+    @JvmStatic
     fun getGlobalTag() = mGlobalTag
 
+    @JvmStatic
     fun setGlobalMaxLineLength(length: Int) {
         mMaxLineLength = length
     }
 
+    @JvmStatic
     fun setGlobalLogTree(logTree: LogTree?) {
         mEnableLogTree = logTree != null
         mLogTree = logTree
@@ -51,6 +55,7 @@ object JFLog {
     /**
      * Verbose
      */
+    @JvmStatic
     fun v(message: String) {
         v(getGlobalTag(), 1, message)
     }
@@ -58,6 +63,7 @@ object JFLog {
     /**
      * Verbose
      */
+    @JvmStatic
     fun v(tag: String, message: String) {
         v(tag, 1, message)
     }
@@ -65,6 +71,7 @@ object JFLog {
     /**
      * Verbose
      */
+    @JvmStatic
     fun v(hierarchy: Int, message: String) {
         v(getGlobalTag(), hierarchy + 1, message)
     }
@@ -72,6 +79,7 @@ object JFLog {
     /**
      * Verbose
      */
+    @JvmStatic
     fun v(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
         prepareLog1(LogLevel.VERBOSE, tag, hierarchy + 1, message)
     }
@@ -79,6 +87,7 @@ object JFLog {
     /**
      * Debug
      */
+    @JvmStatic
     fun d(message: String) {
         d(getGlobalTag(), 1, message)
     }
@@ -86,6 +95,7 @@ object JFLog {
     /**
      * Debug
      */
+    @JvmStatic
     fun d(tag: String, message: String) {
         d(tag, 1, message)
     }
@@ -93,6 +103,7 @@ object JFLog {
     /**
      * Debug
      */
+    @JvmStatic
     fun d(hierarchy: Int, message: String) {
         d(getGlobalTag(), hierarchy + 1, message)
     }
@@ -100,6 +111,7 @@ object JFLog {
     /**
      * Debug
      */
+    @JvmStatic
     fun d(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
         prepareLog1(LogLevel.DEBUG, tag, hierarchy + 1, message)
     }
@@ -107,6 +119,7 @@ object JFLog {
     /**
      * Info
      */
+    @JvmStatic
     fun i(message: String) {
         i(getGlobalTag(), 1, message)
     }
@@ -114,6 +127,7 @@ object JFLog {
     /**
      * Info
      */
+    @JvmStatic
     fun i(tag: String, message: String) {
         i(tag, 1, message)
     }
@@ -121,6 +135,7 @@ object JFLog {
     /**
      * Info
      */
+    @JvmStatic
     fun i(hierarchy: Int, message: String) {
         i(getGlobalTag(), hierarchy + 1, message)
     }
@@ -128,6 +143,7 @@ object JFLog {
     /**
      * Info
      */
+    @JvmStatic
     fun i(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
         prepareLog1(LogLevel.INFO, tag, hierarchy + 1, message)
     }
@@ -135,6 +151,7 @@ object JFLog {
     /**
      * Warn
      */
+    @JvmStatic
     fun w(message: String) {
         w(getGlobalTag(), 1, message)
     }
@@ -142,6 +159,7 @@ object JFLog {
     /**
      * Warn
      */
+    @JvmStatic
     fun w(tag: String, message: String) {
         w(tag, 1, message)
     }
@@ -149,6 +167,7 @@ object JFLog {
     /**
      * Warn
      */
+    @JvmStatic
     fun w(hierarchy: Int, message: String) {
         w(getGlobalTag(), hierarchy + 1, message)
     }
@@ -156,6 +175,7 @@ object JFLog {
     /**
      * Warn
      */
+    @JvmStatic
     fun w(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
         prepareLog1(LogLevel.WARN, tag, hierarchy + 1, message)
     }
@@ -163,6 +183,7 @@ object JFLog {
     /**
      * Error
      */
+    @JvmStatic
     fun e(message: String) {
         e(getGlobalTag(), 1, message)
     }
@@ -170,6 +191,7 @@ object JFLog {
     /**
      * Error
      */
+    @JvmStatic
     fun e(tag: String, message: String) {
         e(tag, 1, message)
     }
@@ -177,6 +199,7 @@ object JFLog {
     /**
      * Error
      */
+    @JvmStatic
     fun e(hierarchy: Int, message: String) {
         e(getGlobalTag(), hierarchy + 1, message)
     }
@@ -184,6 +207,7 @@ object JFLog {
     /**
      * Error
      */
+    @JvmStatic
     fun e(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
         prepareLog1(LogLevel.ERROR, tag, hierarchy + 1, message)
     }
@@ -191,6 +215,7 @@ object JFLog {
     /**
      * Assert
      */
+    @JvmStatic
     fun wtf(message: String) {
         wtf(getGlobalTag(), 1, message)
     }
@@ -198,6 +223,7 @@ object JFLog {
     /**
      * Assert
      */
+    @JvmStatic
     fun wtf(tag: String, message: String) {
         wtf(tag, 1, message)
     }
@@ -205,6 +231,7 @@ object JFLog {
     /**
      * Assert
      */
+    @JvmStatic
     fun wtf(hierarchy: Int, message: String) {
         wtf(getGlobalTag(), hierarchy + 1, message)
     }
@@ -212,6 +239,7 @@ object JFLog {
     /**
      * Assert
      */
+    @JvmStatic
     fun wtf(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
         prepareLog1(LogLevel.ASSERT, tag, hierarchy + 1, message)
     }
