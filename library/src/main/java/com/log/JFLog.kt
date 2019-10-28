@@ -1,6 +1,8 @@
 package com.log
 
 import android.util.Log
+import java.io.PrintWriter
+import java.io.StringWriter
 
 object JFLog {
     enum class LogLevel {
@@ -184,24 +186,30 @@ object JFLog {
      * Error
      */
     @JvmStatic
-    fun e(message: String) {
-        e(getGlobalTag(), 1, message)
+    fun e(message: String?) {
+        if (!message.isNullOrEmpty()) {
+            e(getGlobalTag(), 1, message)
+        }
     }
 
     /**
      * Error
      */
     @JvmStatic
-    fun e(tag: String, message: String) {
-        e(tag, 1, message)
+    fun e(tag: String, message: String?) {
+        if (!message.isNullOrEmpty()) {
+            e(tag, 1, message)
+        }
     }
 
     /**
      * Error
      */
     @JvmStatic
-    fun e(hierarchy: Int, message: String) {
-        e(getGlobalTag(), hierarchy + 1, message)
+    fun e(hierarchy: Int, message: String?) {
+        if (!message.isNullOrEmpty()) {
+            e(getGlobalTag(), hierarchy + 1, message)
+        }
     }
 
     /**
@@ -210,6 +218,38 @@ object JFLog {
     @JvmStatic
     fun e(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, message: String) {
         prepareLog1(LogLevel.ERROR, tag, hierarchy + 1, message)
+    }
+
+    /**
+     * Error
+     */
+    @JvmStatic
+    fun e(t: Throwable) {
+        e(getStackTrace(t))
+    }
+
+    /**
+     * Error
+     */
+    @JvmStatic
+    fun e(tag: String, t: Throwable) {
+        e(tag, 1, getStackTrace(t))
+    }
+
+    /**
+     * Error
+     */
+    @JvmStatic
+    fun e(hierarchy: Int, t: Throwable) {
+        e(getGlobalTag(), hierarchy + 1, getStackTrace(t))
+    }
+
+    /**
+     * Error
+     */
+    @JvmStatic
+    fun e(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, t: Throwable) {
+        prepareLog1(LogLevel.ERROR, tag, hierarchy + 1, getStackTrace(t))
     }
 
     /**
@@ -244,6 +284,14 @@ object JFLog {
         prepareLog1(LogLevel.ASSERT, tag, hierarchy + 1, message)
     }
 
+    private fun getStackTrace(t: Throwable): String {
+        val sw = StringWriter(256)
+        val pw = PrintWriter(sw, false)
+        t.printStackTrace(pw)
+        pw.flush()
+        return sw.toString()
+    }
+
     private fun loggable(): Boolean {
         if (mEnableLogTree) {
             return mLogTree!!.isLoggable()
@@ -262,17 +310,17 @@ object JFLog {
         return "(${trace.fileName}:${trace.lineNumber})"
     }
 
-        private fun prepareLog1(level: LogLevel, tag: String, hierarchy: Int, message: String) {
-            if (loggable()) {
-                val stackTrace = Throwable().stackTrace
-                val trace =
-                    if (stackTrace.size > hierarchy + 1) {
-                        stackTrace[hierarchy + 1]
-                    } else {
-                        stackTrace[stackTrace.size - 1]
-                    }
+    private fun prepareLog1(level: LogLevel, tag: String, hierarchy: Int, message: String) {
+        if (loggable()) {
+            val stackTrace = Throwable().stackTrace
+            val trace =
+                if (stackTrace.size > hierarchy + 1) {
+                    stackTrace[hierarchy + 1]
+                } else {
+                    stackTrace[stackTrace.size - 1]
+                }
 
-                val logPrefix = getPrefix(trace)
+            val logPrefix = getPrefix(trace)
 
             if (message.length > mMaxLineLength) {
                 var isFirst = true
