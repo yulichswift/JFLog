@@ -19,7 +19,6 @@ object JFLog {
             prepareLog3(level, tag, message)
     }
 
-
     private const val MAX_TAG_LENGTH = 23
     private const val DEFAULT = 1
 
@@ -225,7 +224,7 @@ object JFLog {
      */
     @JvmStatic
     fun e(t: Throwable) {
-        e(getStackTrace(t))
+        e(getGlobalTag(), 1, t)
     }
 
     /**
@@ -233,7 +232,7 @@ object JFLog {
      */
     @JvmStatic
     fun e(tag: String, t: Throwable) {
-        e(tag, 1, getStackTrace(t))
+        e(tag, 1, t)
     }
 
     /**
@@ -241,7 +240,7 @@ object JFLog {
      */
     @JvmStatic
     fun e(hierarchy: Int, t: Throwable) {
-        e(getGlobalTag(), hierarchy + 1, getStackTrace(t))
+        e(getGlobalTag(), hierarchy + 1, t)
     }
 
     /**
@@ -249,7 +248,7 @@ object JFLog {
      */
     @JvmStatic
     fun e(tag: String = getGlobalTag(), hierarchy: Int = DEFAULT, t: Throwable) {
-        prepareLog1(LogLevel.ERROR, tag, hierarchy + 1, getStackTrace(t))
+        prepareLog1(LogLevel.ERROR, tag, hierarchy + 1, getStackTrace(t), false)
     }
 
     /**
@@ -311,6 +310,10 @@ object JFLog {
     }
 
     private fun prepareLog1(level: LogLevel, tag: String, hierarchy: Int, message: String) {
+        prepareLog1(level, tag, hierarchy + 1, message, true)
+    }
+
+    private fun prepareLog1(level: LogLevel, tag: String, hierarchy: Int, message: String, needLimitLength: Boolean) {
         if (loggable()) {
             val stackTrace = Throwable().stackTrace
             val trace =
@@ -322,7 +325,7 @@ object JFLog {
 
             val logPrefix = getPrefix(trace)
 
-            if (message.length > mMaxLineLength) {
+            if (needLimitLength && message.length > mMaxLineLength) {
                 var isFirst = true
                 var remainMessage = message
                 while (remainMessage.length > mMaxLineLength) {

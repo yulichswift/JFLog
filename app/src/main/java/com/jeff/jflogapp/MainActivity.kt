@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.log.JFLog
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +21,13 @@ class MainActivity : AppCompatActivity() {
         JFLog.w("Init")
         JFLog.e("Init")
         JFLog.wtf("Init")
+
+        try {
+            val test: String? = null
+            test!!.toBigDecimal()
+        } catch (e: Exception) {
+            JFLog.e(e)
+        }
     }
 
     fun onClick1(view: View) {
