@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     fun onClick1(view: View) {
         JFLog.d("Click1")
         JFLog.d("App", "Click1")
-        JFLog.d(0, "Click1")
-        JFLog.d("App", 0, "Click1")
+        JFLog.d(message = "Click1", hierarchy = 0)
+        JFLog.d("App", "Click1", 0)
     }
 }
