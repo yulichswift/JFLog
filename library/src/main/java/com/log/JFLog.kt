@@ -11,12 +11,13 @@ object JFLog {
 
     interface BaseTree {
         fun isLoggable(): Boolean
-        fun log(level: LogLevel, tag: String, message: String): String?
+        fun log(level: LogLevel, tag: String, message: String)
     }
 
     abstract class LogTree : BaseTree {
-        override fun log(level: LogLevel, tag: String, message: String) =
+        override fun log(level: LogLevel, tag: String, message: String) {
             prepareLog3(level, tag, message)
+        }
     }
 
     private const val MAX_TAG_LENGTH = 23
@@ -261,6 +262,7 @@ object JFLog {
                 }
 
             val logPrefix = getPrefix(trace)
+            val output = "$logPrefix: $message"
 
             if (needLimitLength && message.length > mMaxLineLength) {
                 var isFirst = true
@@ -279,25 +281,27 @@ object JFLog {
                 }
 
                 if (remainMessage.isNotEmpty()) {
-                    return prepareLog2(level, tag, "$logPrefix↗: $remainMessage")
+                    prepareLog2(level, tag, "$logPrefix↗: $remainMessage")
                 }
             } else {
-                return prepareLog2(level, tag, "$logPrefix: $message")
+                prepareLog2(level, tag, output)
             }
+
+            return output
         }
 
         return null
     }
 
-    private fun prepareLog2(level: LogLevel, tag: String, message: String): String? {
-        return if (mEnableLogTree) {
+    private fun prepareLog2(level: LogLevel, tag: String, message: String) {
+        if (mEnableLogTree) {
             mLogTree?.log(level, tag, message)
         } else {
             prepareLog3(level, tag, message)
         }
     }
 
-    private fun prepareLog3(level: LogLevel, tag: String, message: String): String? {
+    private fun prepareLog3(level: LogLevel, tag: String, message: String) {
         when (level) {
             LogLevel.VERBOSE -> Log.v(tag, message)
             LogLevel.DEBUG -> Log.d(tag, message)
@@ -306,7 +310,5 @@ object JFLog {
             LogLevel.ERROR -> Log.e(tag, message)
             LogLevel.ASSERT -> Log.wtf(tag, message)
         }
-
-        return message
     }
 }
