@@ -8,9 +8,9 @@ class AppLogTree: JFLog.LogTree() {
         return BuildConfig.DEBUG || Log.isLoggable("app", Log.DEBUG)
     }
 
-    override fun log(level: JFLog.LogLevel, tag: String, message: String) {
+    override fun log(level: JFLog.LogLevel, tag: String, message: String): String? {
         // val newLevel = JFLog.LogLevel.WARN
         val newTag = "App"
-        super.log(level, newTag, message)
+        return super.log(level, newTag, message)
     }
 }
